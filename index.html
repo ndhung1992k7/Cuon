@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>ThanhDieu Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Phần chung và Loading styling */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+
+    #loadingScreen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: #0e0e0e;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      z-index: 9999;
+      transition: opacity 0.6s ease;
+    }
+
+    .progress-bar {
+      width: 180px; height: 16px;
+      background-color: #e5e5e5;
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: 0 0 5px #8882;
+      margin-top: 20px;
+    }
+
+    .progress {
+      width: 40%; height: 100%;
+      background: linear-gradient(270deg, red, orange, yellow, green, cyan, blue, violet, red);
+      background-size: 800% 800%;
+      animation: rainbowMove 4s ease infinite, loadGrow 2s ease-in-out infinite alternate;
+      border-radius: 999px;
+    }
+
+    .container {
+      display: flex; align-items: center; color: white;
+    }
+
+    .avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      margin-right: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 10px #ff99cc88;
+    }
+
+    .info h1 {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .info p { font-size: 1em; color: #ccc; }
+
+    @keyframes rainbowMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes loadGrow {
+      0% { width: 20%; }
+      100% { width: 85%; }
+    }
+
+    /* Iframe chính */
+    #mainApp { display: none; width: 100vw; height: 100vh; }
+    iframe { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+
+<!-- Màn hình Loading -->
+<div id="loadingScreen">
+  <div class="container">
+    <img src="avatar.jpg" alt="Avatar" class="avatar" />
+    <div class="info">
+      <h1>Vương Thanh Diệu</h1>
+      <p id="quote">Đang tải...</p>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress"></div></div>
+</div>
+
+<!-- Trang chính nhúng file cục bộ -->
+<div id="mainApp">
+  <iframe src="lairmn.html"></iframe>
+</div>
+
+<script>
+  function getQuoteByHour(hour) {
+    if (hour < 6) return "Onichan~ sao giờ này chưa ngủ nữa ୧(๑•̀ᗝ•́)૭";
+    if (hour < 12) return "Chào buổi sáng! Nhớ ăn sáng nha ☀️";
+    if (hour < 18) return "Chiều rồi, nghỉ ngơi tí nào 🌤️";
+    if (hour < 22) return "Tối rồi đó, bật đèn lên nha ✨";
+    return "Khuya rồi, ngủ sớm nha (≧◡≦) ♡";
+  }
+
+  document.getElementById("quote").innerText = getQuoteByHour(new Date().getHours());
+
+  setTimeout(() => {
+    const screen = document.getElementById("loadingScreen");
+    screen.style.opacity = 0;
+    setTimeout(() => {
+      screen.remove();
+      document.getElementById("mainApp").style.display = "block";
+    }, 600);
+  }, 3000);
+</script>
+
+</body>
+</html>
